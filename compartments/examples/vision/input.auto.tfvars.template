@@ -4,10 +4,10 @@
 #---------------------------------------------------------------------------------------------------------------------
 # 1. Rename this file to <project-name>.auto.tfvars, where <project-name> is a name of your choice.
 # 2. Provide values for "Tenancy Connectivity Variables".
-# 3. Replace <OCI-PARENT-COMPARTMENT-OCID> placeholder by a compartment OCID. 
+# 3. Replace <ENCLOSING_COMPARTMENT_OCID> placeholder by a compartment OCID. 
 #    This determines the compartment that TOP-CMP compartment gets attached to.
-# 4. Replace <OCI-COST-CENTER-TAG-OCID> placeholder in TOP-CMP with the actual cost center tag ocid.
-# 5. Replace <OCI-ENVIRONMENT-TAG-OCID> placeholder in TOP-CMP with the actual environment tag ocid.
+# 4. Replace <OCI_COST_CENTER_TAG_OCID> placeholder in TOP-CMP with the actual cost center tag ocid.
+# 5. Replace <OCI_ENVIRONMENT_TAG_OCID> placeholder in TOP-CMP with the actual environment tag ocid.
 # Notice that tag defaults are optional and you can simply remove TOP-CMP's tag_defaults attribute altogether.
 #----------------------------------------------------------------------------------------------------------------------
 
@@ -28,7 +28,7 @@ region               = "<TENANCY_REGION>"           # This is your tenancy home 
 #---------------------------------------
 
 compartments_configuration = {
-  default_parent_id = "<OCI-PARENT-COMPARTMENT-OCID>"
+  default_parent_id = "<ENCLOSING_COMPARTMENT_OCID>"
   #default_defined_tags = null
   #default_freeform_tags = null
   #enable_delete = false
@@ -43,12 +43,12 @@ compartments_configuration = {
       },
       tag_defaults = {
         COST-CENTER-TAG-DEFAULT = {
-          tag_id = "<OCI-COST-CENTER-TAG-OCID>"
+          tag_id = "<OCI_COST_CENTER_TAG_OCID>"
           default_value = "a1",
           is_user_required = false 
         }
         ENVIRONMENT-TAG-DEFAULT = {
-          tag_id = "<OCI-ENVIRONMENT-TAG-OCID>"
+          tag_id = "<OCI_ENVIRONMENT_TAG_OCID>"
           default_value = "low",
           is_user_required = true 
         }   
