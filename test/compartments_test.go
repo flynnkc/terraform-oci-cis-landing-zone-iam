@@ -11,8 +11,17 @@ import (
 	"github.com/oracle/oci-go-sdk/v65/identity"
 )
 
-const ENV_PREFIX string = "TF_VAR"
+const (
+	OCI_TENANT      string = "OCI_TENANCY_OCID"
+	OCI_USER        string = "OCI_USER_OCID"
+	OCI_FINGERPRINT string = "OCI_FINGERPRINT"
+	OCI_KEY         string = "OCI_PRIVATE_KEY_PATH"
+	OCI_PASS        string = "OCI_PRIVATE_KEY_PASSWORD"
+	OCI_REGION      string = "OCI_REGION"
+)
 
+// TestCompartments plans and applies terraform for the compartments module based on the
+// vision example.
 func TestCompartments(t *testing.T) {
 	terraformOptions := terraform.WithDefaultRetryableErrors(t, &terraform.Options{
 		TerraformDir: "./compartments",
@@ -20,27 +29,20 @@ func TestCompartments(t *testing.T) {
 		PlanFilePath: "./compartments/tf.plan",
 	})
 
-	t.Logf("%+v", terraformOptions)
+	terraform.InitAndPlanAndShow(t, terraformOptions)
 
-	//defer terraform.Destroy(t, terraformOptions)
-
-	out := terraform.InitAndPlanAndShow(t, terraformOptions)
-	fmt.Println(out)
-
-	/* TODO Apply testing
+	defer terraform.Destroy(t, terraformOptions)
 	terraform.Apply(t, terraformOptions)
 	output := terraform.OutputMapOfObjects(t, terraformOptions, "compartments")
-	fmt.Println("OUTPUT:", output)
-	*/
 
-	/* Compartments do not destroy by default, this code removes deployed comaprtments
+	// Compartments do not destroy by default, this code removes deployed compartments
 	s := extractCompartments(output)
 	fmt.Println("COMPARTMENTS:", s)
 	for _, cmp := range s {
 		fmt.Println("Cleaning up compartment:", cmp)
 		defer CleanupCompartment(t, cmp, terraformOptions)
 	}
-	*/
+
 }
 
 func extractCompartments(m map[string]any) []string {
@@ -57,10 +59,15 @@ func extractCompartments(m map[string]any) []string {
 	return s
 }
 
+// Needed to delete compartments after test run
 func CleanupCompartment(t *testing.T, c string, o *terraform.Options) error {
-	provider := common.ConfigurationProviderEnvironmentVariables(
-		ENV_PREFIX,
-		o.Vars["private_key_password"].(string),
+	provider := common.NewRawConfigurationProvider(
+		os.Getenv(OCI_TENANT),
+		os.Getenv(OCI_USER),
+		os.Getenv(OCI_REGION),
+		os.Getenv(OCI_FINGERPRINT),
+		os.Getenv(OCI_KEY),
+		common.String(os.Getenv(OCI_PASS)),
 	)
 
 	client, err := identity.NewIdentityClientWithConfigurationProvider(provider)
@@ -81,16 +88,4 @@ func CleanupCompartment(t *testing.T, c string, o *terraform.Options) error {
 	}
 
 	return nil
-}
-
-func GetVars() map[string]string {
-	vars := []string{"tenancy_ocid", "user_ocid", "fingerprint", "private_key_path",
-		"private_key_password", "region"}
-
-	m := make(map[string]string)
-	for _, v := range vars {
-		m[v] = os.Getenv(fmt.Sprint(ENV_PREFIX, "_", v))
-	}
-
-	return m
 }
