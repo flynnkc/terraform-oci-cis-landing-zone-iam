@@ -2,10 +2,7 @@ module github.com/oracle-quickstart/terraform-oci-cis-landing-zone-iam
 
 go 1.21.4
 
-require (
-	github.com/gruntwork-io/terratest v0.46.11
-	github.com/oracle/oci-go-sdk/v65 v65.59.0
-)
+require github.com/gruntwork-io/terratest v0.46.11
 
 require (
 	cloud.google.com/go v0.110.0 // indirect
@@ -18,7 +15,6 @@ require (
 	github.com/aws/aws-sdk-go v1.44.122 // indirect
 	github.com/bgentry/go-netrc v0.0.0-20140422174119-9fd32a8b3d3d // indirect
 	github.com/davecgh/go-spew v1.1.1 // indirect
-	github.com/gofrs/flock v0.8.1 // indirect
 	github.com/golang/groupcache v0.0.0-20210331224755-41bb18bfe9da // indirect
 	github.com/golang/protobuf v1.5.3 // indirect
 	github.com/google/go-cmp v0.5.9 // indirect
@@ -41,7 +37,6 @@ require (
 	github.com/mitchellh/go-testing-interface v1.14.1 // indirect
 	github.com/mitchellh/go-wordwrap v1.0.1 // indirect
 	github.com/pmezard/go-difflib v1.0.0 // indirect
-	github.com/sony/gobreaker v0.5.0 // indirect
 	github.com/stretchr/testify v1.8.4 // indirect
 	github.com/tmccombs/hcl2json v0.3.3 // indirect
 	github.com/ulikunitz/xz v0.5.10 // indirect

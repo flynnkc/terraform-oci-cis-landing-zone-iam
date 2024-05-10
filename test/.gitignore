@@ -3,3 +3,5 @@
 tf.plan
 .terraform
 garbage
+*.log
+test_output

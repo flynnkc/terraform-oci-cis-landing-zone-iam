@@ -14,8 +14,8 @@ replacement = {
     '<USER_OCID>': os.getenv('OCI_USER_OCID'),
     '<PEM_KEY_FINGERPRINT>': os.getenv('OCI_FINGERPRINT'),
     '<PATH_TO_PRIVATE_KEY>': os.getenv('OCI_PRIVATE_KEY_PATH'),
-    '<PRIVATE_KEY_PASSWORD>': os.getenv('OCI_PRIVATE_KEY_PASS'),
     '<TENANCY_REGION>': os.getenv('OCI_REGION'),
+    '<PRIVATE_KEY_PASSWORD>': os.getenv('OCI_PRIVATE_KEY_PASS', ''),
     '<ENCLOSING_COMPARTMENT_OCID>': os.getenv('OCI_ENCLOSING_CMP', ''),
     '<OCI_COST_CENTER_TAG_OCID>': os.getenv('OCI_CC_TAG', ''),
     '<OCI_ENVIRONMENT_TAG_OCID>': os.getenv('OCI_ENV_TAG', ''),
@@ -39,7 +39,6 @@ def main(args: argparse.Namespace):
             path = os.path.abspath(os.path.join(root, target_file))
             log.info(f'Processing {path}')
             process(path)
-            break
 
 def process(filepath: os.PathLike):
     try:
@@ -60,13 +59,12 @@ def validate():
         '<USER_OCID>',
         '<PEM_KEY_FINGERPRINT>',
         '<PATH_TO_PRIVATE_KEY>',
-        '<PRIVATE_KEY_PASSWORD>',
         '<TENANCY_REGION>'
     ]
 
     for attr in required_attrs:
         if replacement[attr] is None:
-            log.critical(f'No environment variable {replacement[attr]} set - Exiting')
+            log.critical(f'No environment variable {attr} set - Exiting')
             exit(1)
 
 
