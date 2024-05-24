@@ -4,7 +4,7 @@
 #---------------------------------------------------------------------------------------------------------------------
 # 1. Rename this file to <project-name>.auto.tfvars, where <project-name> is any name of your choice.
 # 2. Provide values for "Tenancy Connectivity Variables".
-# 3. Replace <*-COMPARTMENT-OCID> placeholders by appropriate compartment OCIDs.
+# 3. Replace <*_COMPARTMENT_OCID> placeholders by appropriate compartment OCIDs.
 
 # The dynamic_groups_configuration variable defines a Terraform object describing any set of OCI IAM dynamic groups.
 # The object defines sub-objects indexed by uppercased strings, like SEC-FUN-DYN-GROUP, APPDEV-FUN-DYN-GROUP, etc.
@@ -12,7 +12,7 @@
 # but once defined they MUST NOT BE CHANGED, or Terraform will try to destroy and recreate the dynamic groups.
 # The sub-objects have a matching_rule attribute that define the principals assigned to the dynamic group. 
 # The matching_rule attribute must be completed with the appropriate compartment OCIDs as indicated by 
-# the <*-COMPARTMENT-OCID> placeholders.
+# the <*_COMPARTMENT_OCID> placeholders.
 #------------------------------------------------------------------------------------------------------------------
 
 #---------------------------------------
@@ -38,24 +38,24 @@ dynamic_groups_configuration = {
     SEC-FUN-DYN-GROUP : { 
       name : "vision-sec-fun-dynamic-group",  
       description : "Dynamic group for security functions execution.",      
-      matching_rule : "ALL {resource.type = 'fnfunc',resource.compartment.id = '<SECURITY-COMPARTMENT-OCID>'}"
+      matching_rule : "ALL {resource.type = 'fnfunc',resource.compartment.id = '<SECURITY_COMPARTMENT_OCID>'}"
       #defined_tags : null, 
       #freeform_tags : null
     },
     APPDEV-FUN-DYN-GROUP : { 
       name : "vision-appdev-fun-dynamic-group",  
       description : "Dynamic group for application functions execution.",      
-      matching_rule : "ALL {resource.type = 'fnfunc',resource.compartment.id = '<APPLICATION-COMPARTMENT-OCID>'}"
+      matching_rule : "ALL {resource.type = 'fnfunc',resource.compartment.id = '<APPLICATION_COMPARTMENT_OCID>'}"
     },  
     APPDEV-COMPUTE-AGENT-DYN-GROUP : { 
       name : "vision-appdev-computeagent-dynamic-group",  
       description : "Dynamic group for Compute Agent plugin execution.",      
-      matching_rule : "ALL {resource.type = 'managementagent',resource.compartment.id = '<APPLICATION-COMPARTMENT-OCID>'}"
+      matching_rule : "ALL {resource.type = 'managementagent',resource.compartment.id = '<APPLICATION_COMPARTMENT_OCID>'}"
     },                                        
     DATABASE-KMS-DYN-GROUP : { 
       name : "vision-database-kms-dynamic-group",  
       description : "Dynamic group for databases accessing Key Management service (aka Vault service).",      
-      matching_rule : "ALL {resource.compartment.id = '<DATABASE-COMPARTMENT-OCID>'}"
+      matching_rule : "ALL {resource.compartment.id = '<DATABASE_COMPARTMENT_OCID>'}"
     }
   }
 }  
