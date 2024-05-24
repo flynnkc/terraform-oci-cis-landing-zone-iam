@@ -38,24 +38,24 @@ dynamic_groups_configuration = {
     SEC-FUN-DYN-GROUP : { 
       name : "vision-sec-fun-dynamic-group",  
       description : "Dynamic group for security functions execution.",      
-      matching_rule : "ALL {resource.type = 'fnfunc',resource.compartment.id = '<REPLACE-BY-SECURITY-COMPARTMENT-OCID>'}"
+      matching_rule : "ALL {resource.type = 'fnfunc',resource.compartment.id = '<SECURITY-COMPARTMENT-OCID>'}"
       #defined_tags : null, 
       #freeform_tags : null
     },
     APPDEV-FUN-DYN-GROUP : { 
       name : "vision-appdev-fun-dynamic-group",  
       description : "Dynamic group for application functions execution.",      
-      matching_rule : "ALL {resource.type = 'fnfunc',resource.compartment.id = '<REPLACE-BY-APPLICATION-COMPARTMENT-OCID>'}"
+      matching_rule : "ALL {resource.type = 'fnfunc',resource.compartment.id = '<APPLICATION-COMPARTMENT-OCID>'}"
     },  
     APPDEV-COMPUTE-AGENT-DYN-GROUP : { 
       name : "vision-appdev-computeagent-dynamic-group",  
       description : "Dynamic group for Compute Agent plugin execution.",      
-      matching_rule : "ALL {resource.type = 'managementagent',resource.compartment.id = '<REPLACE-BY-APPLICATION-COMPARTMENT-OCID>'}"
+      matching_rule : "ALL {resource.type = 'managementagent',resource.compartment.id = '<APPLICATION-COMPARTMENT-OCID>'}"
     },                                        
     DATABASE-KMS-DYN-GROUP : { 
       name : "vision-database-kms-dynamic-group",  
       description : "Dynamic group for databases accessing Key Management service (aka Vault service).",      
-      matching_rule : "ALL {resource.compartment.id = '<REPLACE-BY-DATABASE-COMPARTMENT-OCID>'}"
+      matching_rule : "ALL {resource.compartment.id = '<DATABASE-COMPARTMENT-OCID>'}"
     }
   }
 }  
