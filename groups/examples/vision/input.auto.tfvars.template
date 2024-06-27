@@ -45,7 +45,7 @@ groups_configuration = {
     },  
     COST-ADMIN-GROUP  : { 
       name : "vision-cost-admin-group",  
-      description : Cost administrators group."
+      description : "Cost administrators group."
     },                                        
     NETWORK-ADMIN-GROUP  : { 
       name : "vision-network-admin-group",  
