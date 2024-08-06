@@ -1,6 +1,7 @@
 #!/bin/python3.11
 
 import argparse
+import glob
 import logging
 import os
 
@@ -30,30 +31,40 @@ replacement = {
 }
 
 def main(args: argparse.Namespace):
-    target_file = 'input.auto.tfvars.template'
+    # Get absolute filepath to remove interpretation
+    fp = os.path.abspath(args.filepath)
 
     validate()
 
-    for root, _, file in os.walk(args.filepath):
-        if 'input.auto.tfvars.template' in file:
-            path = os.path.abspath(os.path.join(root, target_file))
-            log.info(f'Processing {path}')
-            process(path)
+    # If filepath is a directory, walk it looking for args.file
+    if os.path.isdir(fp):
+        for root, _, file in os.walk(fp):
+            if args.file in file:
+                path = os.path.abspath(os.path.join(root, args.file))
+                print(f'Processing {path}')
+                process(path)
+    else:
+        process(os.path.abspath(args.filepath))
 
-def process(filepath: os.PathLike):
+# Process file by finding a replacing items as dictated by replacement dictionary
+def process(file: os.PathLike):
     try:
-        with open(filepath, mode='r+') as f:
+        with open(file, mode='r+') as f:
             content = f.read()
             for k,v in replacement.items():
                 content = content.replace(k, v)
             f.seek(0)
             f.truncate()
             f.write(content)
-
     except OSError as e:
-        log.error(f'Failed to process file {filepath}: {e}')
+        log.error(f'Failed to process file {file}: {e}')
+    except Exception as e:
+        log.error(f'An exception occured: {e}')
 
+# Make sure that attributes required for authentication are set, exit if absent
 def validate():
+
+    # List containing required attributes
     required_attrs = [
         '<TENANCY_OCID>',
         '<USER_OCID>',
@@ -63,6 +74,7 @@ def validate():
     ]
 
     for attr in required_attrs:
+        # Can tolerate empty string, but not unset variables
         if replacement[attr] is None:
             log.critical(f'No environment variable {attr} set - Exiting')
             exit(1)
@@ -71,7 +83,9 @@ def validate():
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(prog='preprocessor.py',
         description='Process input files for pipeline consumption')
-    parser.add_argument('filepath', help='Root directory to process')
+    parser.add_argument('filepath', help='Root directory or file to process')
+    parser.add_argument('-f', '--file', default='input.auto.tfvars.template',
+                        help='Filename to process, required if directory is given')
     args = parser.parse_args()
     log.info(f'Parsing file with args {args}')
     main(args)
